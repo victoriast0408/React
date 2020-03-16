@@ -1,5 +1,5 @@
 import React from "react";
-/*import "./styles.css";*/
+import "./styles.css";
 import ReactDOM from "react-dom";
 
 const movie = {
@@ -13,10 +13,10 @@ const movie = {
 
 function Image(props) {
   /*console.log("Image props= ", props);*/
-  return <img src={props.src} alt={props.alt} />;
+  return <img src={props.src} alt={props.alt} width="100%" />;
 }
 
- /*function MovieItem(props) {
+/*function MovieItem(props) {
 --   console.log("MovieItem props= ", props);
 --   const {
 --     data: { title, vote_average, image, overview }
@@ -32,22 +32,51 @@ function Image(props) {
 -- }*/
 
 class MovieItem extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      show: false,
+      like: false
+    };
+  }
+
+  toggleOverview = () => {
+    this.setState({
+      show: !this.state.show
+    });
+  };
+  handleLike = () => {
+    this.setState({
+      like: !this.state.like
+    });
+  };
   render() {
+    console.log(this);
     const {
-    data: { title, vote_average, image, overview }
-  } = this.props;
-  console.log(this);
+      data: { title, vote_average, image, overview }
+    } = this.props;
     return (
-    <div>
-      <Image src={image} alt={title} />
-      <p>{title}</p>
-      <p>{overview}</p>
-      <p>{vote_average}</p>
-    </div>
-  );
+      <div style={{ width: "300px" }}>
+        <Image src={image} alt={title} />
+        <p>{title}</p>
+        <p>{vote_average}</p>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button type="button" onClick={this.toggleOverview}>
+            {this.state.show ? "Hide" : "Show"}
+          </button>
+          <button
+            type="button"
+            onClick={this.handleLike}
+            className={this.state.like ? "btn--like" : ""}
+          >
+            {this.state.like ? "Unlike" : "Like"}
+          </button>
+        </div>
+        {this.state.show === true ? <p>{overview}</p> : null}
+      </div>
+    );
   }
 }
-
 
 /*Component App, which in layout returns the divs */
 function App() {
